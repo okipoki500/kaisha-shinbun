@@ -1,0 +1,11 @@
+{
+  "child_name": "きみ",
+  "stocks": [
+    { "ticker": "4661.T", "name_ja": "オリエンタルランド", "emoji": "🏰", "brand_color": "#26A6B5" },
+    { "ticker": "2702.T", "name_ja": "マクドナルド",       "emoji": "🍔", "brand_color": "#DA291C" },
+    { "ticker": "8136.T", "name_ja": "サンリオ",           "emoji": "🎀", "brand_color": "#F06292" },
+    { "ticker": "7974.T", "name_ja": "にんてんどう",       "emoji": "🎮", "brand_color": "#E60012" }
+  ],
+  "weekly_amount_yen_per_stock": 1000,
+  "notes": "この銘柄リストが唯一のソース・オブ・トゥルース。実際にPayPay証券で買った銘柄に変わったら、ここを書き換えるだけで次号から反映される。"
+}
