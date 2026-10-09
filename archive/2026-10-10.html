@@ -1,0 +1,314 @@
+<title>きみのかいしゃしんぶん</title>
+<style>
+  :root {
+    --bg: #FBF4E4;
+    --ink: #40372C;
+    --ink-soft: #8A7E6E;
+    --card: #FFFFFF;
+    --line: #EADFC9;
+    --up: #E24B2C;
+    --down: #2F6FB7;
+    --flat: #8A7E6E;
+    --up-bg: #FBE9E3;
+    --down-bg: #E5EEF8;
+    --flat-bg: #F0EBE1;
+    --talk-bg: #FFF9EC;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #20242F;
+      --ink: #EFE9DC;
+      --ink-soft: #A79F90;
+      --card: #2B3040;
+      --line: #3C4254;
+      --up: #FF8A6B;
+      --down: #7FB2E8;
+      --flat: #A79F90;
+      --up-bg: #45332F;
+      --down-bg: #2C3A4E;
+      --flat-bg: #363B49;
+      --talk-bg: #343549;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #FBF4E4; --ink: #40372C; --ink-soft: #8A7E6E; --card: #FFFFFF;
+    --line: #EADFC9; --up: #E24B2C; --down: #2F6FB7; --flat: #8A7E6E;
+    --up-bg: #FBE9E3; --down-bg: #E5EEF8; --flat-bg: #F0EBE1; --talk-bg: #FFF9EC;
+  }
+  :root[data-theme="dark"] {
+    --bg: #20242F; --ink: #EFE9DC; --ink-soft: #A79F90; --card: #2B3040;
+    --line: #3C4254; --up: #FF8A6B; --down: #7FB2E8; --flat: #A79F90;
+    --up-bg: #45332F; --down-bg: #2C3A4E; --flat-bg: #363B49; --talk-bg: #343549;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Hiragino Maru Gothic ProN", "BIZ UDPGothic", "Yu Gothic", sans-serif;
+    margin: 0;
+    padding: 24px 16px 48px;
+    line-height: 1.7;
+  }
+  .paper { max-width: 880px; margin: 0 auto; }
+
+  header.masthead {
+    text-align: center;
+    border-bottom: 3px double var(--line);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+  }
+  .masthead .date {
+    font-size: 13px;
+    color: var(--ink-soft);
+    letter-spacing: 0.12em;
+  }
+  .masthead h1 {
+    font-size: clamp(28px, 6vw, 42px);
+    margin: 6px 0 2px;
+    letter-spacing: 0.06em;
+    text-wrap: balance;
+  }
+  .masthead .sub { font-size: 14px; color: var(--ink-soft); }
+
+  .summary {
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    font-size: 17px;
+  }
+  .summary strong { font-size: 20px; }
+  .summary .plus { color: var(--up); font-weight: bold; }
+  .summary .minus { color: var(--down); font-weight: bold; }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 18px;
+  }
+  .card {
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-top: 8px solid var(--brand);
+    border-radius: 16px;
+    padding: 18px 18px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .card h2 {
+    margin: 0;
+    font-size: 21px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card h2 .code { font-size: 12px; color: var(--ink-soft); font-weight: normal; margin-left: auto; }
+
+  .move {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+  .move.up   { background: var(--up-bg); }
+  .move.down { background: var(--down-bg); }
+  .move.flat { background: var(--flat-bg); }
+  .move .word { font-size: 22px; font-weight: bold; }
+  .move.up .word   { color: var(--up); }
+  .move.down .word { color: var(--down); }
+  .move.flat .word { color: var(--flat); }
+  .move .pct { font-size: 15px; color: var(--ink-soft); }
+  .move .price { margin-left: auto; font-size: 14px; color: var(--ink-soft); }
+
+  .week {
+    display: flex;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .week .day {
+    flex: 1;
+    text-align: center;
+    background: var(--flat-bg);
+    border-radius: 8px;
+    padding: 4px 0;
+    line-height: 1.4;
+  }
+  .week .day b { display: block; font-size: 16px; }
+  .week .day.u b { color: var(--up); }
+  .week .day.d b { color: var(--down); }
+
+  .why { font-size: 15.5px; margin: 0; }
+  .why .label, .talk .label {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0.15em;
+    color: var(--brand);
+    border: 1.5px solid var(--brand);
+    border-radius: 999px;
+    padding: 1px 10px;
+    margin-bottom: 6px;
+  }
+  .talk {
+    background: var(--talk-bg);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 15px;
+    margin-top: auto;
+  }
+  .talk p { margin: 4px 0 0; }
+
+  section.simulate {
+    margin-top: 28px;
+    background: var(--card);
+    border: 2px dashed var(--line);
+    border-radius: 16px;
+    padding: 18px 20px;
+  }
+  section.simulate h3 { margin: 0 0 8px; font-size: 19px; }
+  .sim-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 18px;
+    font-variant-numeric: tabular-nums;
+  }
+  .sim-row .big { font-size: 26px; font-weight: bold; }
+  .sim-row .gain { color: var(--up); font-weight: bold; }
+  .sim-row .loss { color: var(--down); font-weight: bold; }
+  .sim-note { font-size: 13px; color: var(--ink-soft); text-align: center; margin: 8px 0 0; }
+
+  footer {
+    margin-top: 32px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    border-top: 1px solid var(--line);
+    padding-top: 12px;
+  }
+  footer p { margin: 4px 0; }
+</style>
+
+<div class="paper">
+  <header class="masthead">
+    <div class="date">2026ねん 10がつ 2にち（きんようび）だい13ごう</div>
+    <h1>📰 きみの かいしゃ しんぶん</h1>
+    <div class="sub">きみが えらんだ 4つの かいしゃの 1しゅうかん</div>
+  </header>
+
+  <div class="summary">
+    こんしゅうは 4つの かいしゃが ぜんぶ さがってしまった むずかしいしゅうかんだったよ。
+    さがりかたが いちばん すくなかったのは <strong>マクドナルド</strong>（<span class="minus">−1.8%</span>）。
+    いちばんおおきく さがったのは <strong>オリエンタルランド</strong>（<span class="minus">−5.8%</span>）。
+    OLCと サンリオは せんしゅうのパスポートやクーポンの「プレゼントけんり」が こんしゅうから なくなって さがったよ（これを「けんりおち」っていうんだ）。
+    にんてんどうは ガイコクのおおきな きんゆうかいしゃが「にんてんどうのかぶを うりなさい」と はっぴょうして さがったよ。
+  </div>
+
+  <div class="cards">
+
+    <article class="card" style="--brand:#26A6B5;">
+      <h2>🏰 オリエンタルランド <span class="code">4661</span></h2>
+      <div class="move down">
+        <span class="word">さがった ⤵</span><span class="pct">−5.8%</span>
+        <span class="price">1かぶ 2,822えん</span>
+      </div>
+      <div class="week">
+        <div class="day d">げつ<b>⤵</b></div>
+        <div class="day u">か<b>⤴</b></div>
+        <div class="day d">すい<b>⤵</b></div>
+        <div class="day">もく<b>→</b></div>
+        <div class="day d">きん<b>⤵</b></div>
+      </div>
+      <p class="why"><span class="label">なんで？</span><br>
+        せんしゅうのきんようびまでに かぶを かっておくと、ディズニーランドのパスポートが もらえる たいせつなひだったよ。そのパスポートを もらいたい ひとたちが いっきに かぶを かいに きて、せんしゅうは あがっていたんだ。でも こんしゅうの げつようびから その「パスポートをもらえるけんり」が なくなった（これを「けんりおち」というよ）。すると「パスポートがもらえたから、もう かぶを もたなくていいや」と うる ひとが ふえて、かぶが おおきく さがってしまったよ（−5.8%）。これは まいとし おきる きせつてきな うごきで、おかしなことが あったわけじゃないんだ。</p>
+      <div class="talk"><span class="label">おやこトーク</span>
+        <p>プレゼントをもらったら、かぶを うってしまうひとが いるのはなぜだとおもう？ きみなら プレゼントをもらっても、ずっと かぶを もちつづける？</p>
+      </div>
+    </article>
+
+    <article class="card" style="--brand:#DA291C;">
+      <h2>🍔 マクドナルド <span class="code">2702</span></h2>
+      <div class="move down">
+        <span class="word">さがった ⤵</span><span class="pct">−1.8%</span>
+        <span class="price">1かぶ 7,440えん</span>
+      </div>
+      <div class="week">
+        <div class="day d">げつ<b>⤵</b></div>
+        <div class="day d">か<b>⤵</b></div>
+        <div class="day d">すい<b>⤵</b></div>
+        <div class="day u">もく<b>⤴</b></div>
+        <div class="day d">きん<b>⤵</b></div>
+      </div>
+      <p class="why"><span class="label">なんで？</span><br>
+        マクドナルドには こんしゅう とくに おおきなニュースは みあたらなかったよ。きんようびに まとめて さがって、せんしゅうより −1.8%になったんだ。4しゃのなかでは いちばんさがりが すくなかったけどね。マクドナルドは まいにち たくさんの おきゃくさんが きて、にほんじゅうに おみせが あるから、きほんてきには つよいかいしゃなんだ。こういう「とくに おおきなりゆうが みあたらないけどすこしさがるしゅうかん」も あるんだよ。ながーいめで みると だいじょうぶだよ。</p>
+      <div class="talk"><span class="label">おやこトーク</span>
+        <p>マクドナルドは まいにち おきゃくさんが いっぱいくるのに、かぶが すこしずつ さがることが あるのはなぜだとおもう？ かいしゃが もうかっていれば かぶは ぜったいに あがるとおもう？</p>
+      </div>
+    </article>
+
+    <article class="card" style="--brand:#F06292;">
+      <h2>🎀 サンリオ <span class="code">8136</span></h2>
+      <div class="move down">
+        <span class="word">さがった ⤵</span><span class="pct">−3.8%</span>
+        <span class="price">1かぶ 1,181えん</span>
+      </div>
+      <div class="week">
+        <div class="day d">げつ<b>⤵</b></div>
+        <div class="day d">か<b>⤵</b></div>
+        <div class="day u">すい<b>⤴</b></div>
+        <div class="day d">もく<b>⤵</b></div>
+        <div class="day d">きん<b>⤵</b></div>
+      </div>
+      <p class="why"><span class="label">なんで？</span><br>
+        サンリオも オリエンタルランドと おなじで、せんしゅうのきんようびまでに かぶを かっておくと「サンリオショップで つかえる クーポン」が もらえた よ。そのクーポンを もらいたいひとたちが せんしゅうは かいに きて あがっていたんだ。でも こんしゅうの げつようびから その「クーポンをもらえるけんり」が なくなった（「けんりおち」だね）。すると かいに くるひとが すくなくなって、かぶが おおきく さがってしまったよ（−3.8%）。すいようびは すこし もどしたけど、きんようびまでに またさがってしまったよ。</p>
+      <div class="talk"><span class="label">おやこトーク</span>
+        <p>かぶをもっているひとに クーポンを あげるのは かいしゃにとって なんのためだとおもう？ クーポンを もらったひとは サンリオにとって どんないい おきゃくさんに なるかな？</p>
+      </div>
+    </article>
+
+    <article class="card" style="--brand:#E60012;">
+      <h2>🎮 にんてんどう <span class="code">7974</span></h2>
+      <div class="move down">
+        <span class="word">さがった ⤵</span><span class="pct">−3.1%</span>
+        <span class="price">1かぶ 7,849えん</span>
+      </div>
+      <div class="week">
+        <div class="day d">げつ<b>⤵</b></div>
+        <div class="day d">か<b>⤵</b></div>
+        <div class="day d">すい<b>⤵</b></div>
+        <div class="day u">もく<b>⤴</b></div>
+        <div class="day d">きん<b>⤵</b></div>
+      </div>
+      <p class="why"><span class="label">なんで？</span><br>
+        こんしゅうの げつようびに「UBS（ユービーエス）しょうけん」という スイスの おおきな きんゆうかいしゃが「にんてんどうのかぶは うったほうがいい」という はっぴょうをしたよ。これを「かくさげ」といって、「スイッチ2が いまよりたくさんは うれないかも・もうけが へるかも」というりゆうなんだ。このニュースを きいた たくさんのひとが「にんてんどうのかぶを もちつづけると きけんかも」と かんがえて、かぶを うってしまったんだ。もくようびは すこしもどしたけど、きんようびに またさがって −3.1%になったよ。</p>
+      <div class="talk"><span class="label">おやこトーク</span>
+        <p>ガイコクのおおきなかいしゃが「このかぶを うりなさい」と いうと、なぜかぶが さがるのかな？ そのアドバイスが まちがっていることも あると おもう？</p>
+      </div>
+    </article>
+
+  </div>
+
+  <section class="simulate">
+    <h3>🪄 もしも せんしゅう、1,000えんずつ かっていたら…</h3>
+    <div class="sim-row">
+      <span>4しゃに 1,000えんずつ</span>
+      <span class="big">4,000えん</span>
+      <span>→ こんしゅうは</span>
+      <span class="big">3,855えん</span>
+      <span class="loss">−145えん 😢</span>
+    </div>
+    <p class="sim-note">こんしゅうは 4しゃ ぜんぶが さがったので、まとめて −145えんになったよ。でも マクドナルドが さがりかたを おさえてくれたんだ。4つ もつと「1つだけ もっているより ダメージが すくない」ことも あるよ—これを「ぶんさんとうし」というんだ。らいしゅうに きたいしよう！</p>
+  </section>
+
+  <footer>
+    <p>【おうちのかたへ】週間騰落は前週金曜（9/25）終値との比較。今週（9/28月〜10/2金）は全5営業日取引あり。今週（10/2金）終値：オリエンタルランド2,822円・マクドナルド7,440円・サンリオ1,181円・任天堂7,849円。前週9/25終値：OLC2,996円・マクドナルド7,580円・サンリオ1,228円・任天堂8,100円。日次騰落は一部推定を含む。</p>
+    <p>今週の主なニュース：9/28（月）は前週9/25（金）の権利付き最終日（T+2、9/30権利確定）通過後の権利落ちにより、OLC・サンリオが週初に大きく下落（OLC：2,996→2,902、サンリオ：1,228→約1,185）。同日UBS証券が任天堂の投資判断をNeutral→Sellに格下げ、目標株価を7,800円→5,500円に引き下げ（Switch2の収益性懸念）。マクドナルドは特段の材料なく緩やかに軟化。データ出典：Yahoo!ファイナンス、日本経済新聞、各社IR。</p>
+    <p>データ取得日：2026年10月2日（金）｜出典：Yahoo!ファイナンス</p>
+  </footer>
+</div>
